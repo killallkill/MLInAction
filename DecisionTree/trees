@@ -1,6 +1,9 @@
 # -*- coding=utf-8 -*-
 from math import log
 
+import operator
+
+
 class DecisionTree:
 
 
@@ -46,7 +49,7 @@ class DecisionTree:
     def createSampleData(self):
         dataSet = [
             [1, 1, 'yes'],
-            [1, 0, 'yes'],
+            [1, 0, 'no'],
             [1, 1, 'yes'],
             [0, 1, 'no'],
             [0, 1, 'no']
@@ -95,10 +98,50 @@ class DecisionTree:
                 bestFea = i
         return bestFea
 
+    '''
+    返回出现次数最多的分类名称
+    '''
+    def majorityCnt(self,classList):
+        classCount = {}
+        for vote in classList:
+            if vote not in classCount.keys():classCount[vote] = 0
+            classCount[vote] += 1
+        sortedClassCount = sorted(classCount.iteritems(),key=operator.itemgetter(1),reverse=True)
+        return sortedClassCount[0][0]
+
+
+    '''
+    划分数据集，并对划分出来的每一个数据集在进行划分，直至程序遍历完所有的数据集或者每个分支下的所有实例都具有相同的分类
+    所有实例具有相同的分类，则得到一个叶子节点或者终止块
+    '''
+    def createTree(self, dataSet, labels):
+        classList = [example[-1] for example in dataSet]
+        #当类别完全相同是，则停止划分
+        if classList.count(classList[0]) == len(classList):
+            return classList[0]
+        #遍历完所有的特征时返回出现次数最多的类别
+        '''
+        出现该情况的原因是函数使用完了所有的特征，依然不能够使得子集内的所有数据都是同一个类别，
+        那么就选择一个出现次数最多的类别作为标签
+        '''
+        if len(dataSet[0]) == 1:
+            return self.majorityCnt(classList)
+        bestFea = self.chooseBestFeatureToSplit(dataSet)
+        bestFeaLabel = labels[bestFea]
+        myTree = {bestFeaLabel:{}}
+        del (labels[bestFea])
+        #得出列表包含的所有属性值
+        featValues = [example[bestFea] for example in dataSet]
+        uniqueVals = set(featValues)
+        #根据特征值来对每一个子树进行划分
+        for valus in uniqueVals:
+            subLables = labels[:]
+            myTree[bestFeaLabel][valus] = self.createTree(self.splitDataSet(dataSet, bestFea, valus), subLables)
+        return myTree
 
 
 if __name__ == '__main__':
     mat,labels = DecisionTree().createSampleData()
-    feature = DecisionTree().chooseBestFeatureToSplit(mat)
-    print feature
+    mytree = DecisionTree().createTree(mat,labels)
+    print mytree
 
