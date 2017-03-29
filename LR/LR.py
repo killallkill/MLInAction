@@ -1,7 +1,7 @@
 # -*- coding=utf-8 -*-
 import codecs
-from math import exp
-from numpy import mat, shape, ones
+
+from numpy import mat, shape, ones, exp
 
 
 class LogisticRegression:
@@ -14,12 +14,23 @@ class LogisticRegression:
         测试数据集格式：
         “-0.017612	14.053064	0”
         '''
-        fr = codecs.open('data\\LRTestData\\testSet.txt', 'r', 'utf-8')
-        for line in fr.readline():
-            lineArray = line.strip().split()
+        fr = codecs.open('../data/LRTestData/testSet.txt', 'r', 'utf-8')
+        num = fr.readlines()
+        for line in num:
+            lineArray = line.strip().split('\t')
+
             '''
             构建特征数组，该数组是二维数组
             每列代表数组的不同特征，每行则代表一个训练样本
+
+            if lineArray[0].startswith('-') and lineArray[1].startswith('-'):
+                dataMat.append([1, -float(lineArray[0][1:]),-float[lineArray[1][1:]]])
+            elif lineArray[0].startswith('-'):
+                dataMat.append([1, -float(lineArray[0][1:]), float(lineArray[1])])
+            elif lineArray[1].startswith('-'):
+                dataMat.append([1, float(dataArr[0], -float(dataArr[1][1:]))])
+            else:
+                dataMat.append([1, float(lineArray[0]), float(lineArray[1])])
             '''
             dataMat.append([1, float(lineArray[0]), float(lineArray[1])])
             labelMat.append(int(lineArray[2]))
@@ -47,3 +58,8 @@ class LogisticRegression:
             weight = weight + alpha * dataMatrix.transpose() * error
         return weight
 
+if __name__ == "__main__":
+    lr = LogisticRegression()
+    dataArr ,classlabel = lr.loadDataSet()
+    weights = lr.gradAscent(dataArr,classLabel=classlabel)
+    print weights
