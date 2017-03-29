@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 
 class LogisticRegression:
 
+
     def loadDataSet(self):
         dataMat = []
         labelMat = []
