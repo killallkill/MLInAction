@@ -18,8 +18,8 @@ class LogisticRegression():
         “-0.017612	14.053064	0”
         '''
         fr = codecs.open('../data/LRTestData/testSet.txt', 'r', 'utf-8')
-        num = fr.readlines()
-        for line in num:
+        fileLine = fr.readlines()
+        for line in fileLine:
             lineArray = line.strip().split('\t')
 
             '''
