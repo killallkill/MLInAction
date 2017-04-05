@@ -34,8 +34,8 @@ class kNNClassify():
 
     def main(self):
         group, labels = self.createDateSet()
-        result = self.classify0([0, 0], group, labels, 3)
-        print result
+        result1 = self.classify0([0, 0], group, labels, 3)
+        print result1
 
 if __name__ == '__main__':
     knn = kNNClassify()
