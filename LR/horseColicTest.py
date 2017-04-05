@@ -6,7 +6,7 @@ from numpy import array
 from LR import LogisticRegression
 
 
-class HorseColicTest:
+class HorseColicTest():
 
     '''
     该函数用于测试回归后的回归参数效果

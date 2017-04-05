@@ -4,7 +4,7 @@ from math import log
 import operator
 
 
-class DecisionTree:
+class DecisionTree():
 
 
     '''

@@ -6,7 +6,7 @@ from numpy import mat, shape, ones, exp, array, arange
 import matplotlib.pyplot as plt
 
 
-class LogisticRegression:
+class LogisticRegression():
 
 
     def loadDataSet(self):
